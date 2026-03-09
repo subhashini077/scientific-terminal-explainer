@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Terms Matching Game - Concept Clarity</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Matching Game Styles */
+        .game-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #f3eaea;
+        }
+
+        .game-header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #eaedf0;
+        }
+
+        .game-header p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .column-title {
+            font-weight: bold;
+            color: #ecf0f3;
+            font-size: 16px;
+            margin-bottom: 10px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3998d7;
+        }
+
+        .term-item, .definition-item {
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: grab;
+            transition: all 0.2s ease;
+            user-select: none;
+            border: 2px solid transparent;
+        }
+
+        .term-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .term-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .term-item.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .term-item.matched {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            cursor: default;
+            opacity: 0.6;
+        }
+
+        .definition-item {
+            background: #ecf0f1;
+            color: #2c3e50;
+            border: 2px dashed #bdc3c7;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .definition-item.drag-over {
+            background: #bbd6ff;
+            border-color: #3498db;
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .definition-item.matched {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-color: #48bb78;
+            color: #155724;
+        }
+
+        .definition-item .term-label {
+            position: absolute;
+            font-size: 12px;
+            color: #48bb78;
+            font-weight: bold;
+            margin-top: -50px;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid #48bb78;
+        }
+
+        .game-footer {
+            margin-top: 30px;
+            text-align: center;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Success Animation */
+        @keyframes pop {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes checkmark {
+            0% {
+                transform: scale(0) rotate(-45deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1) rotate(0);
+                opacity: 1;
+            }
+        }
+
+        .success-animation {
+            animation: pop 0.4s ease-out;
+        }
+
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .success-modal.show {
+            display: flex;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .success-content {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideInRight 0.4s ease-out;
+        }
+
+        .checkmark-icon {
+            font-size: 60px;
+            color: #48bb78;
+            margin-bottom: 20px;
+            animation: checkmark 0.5s ease-out;
+        }
+
+        .success-content h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .success-content p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .success-content .btn {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78 0%, #38a169 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .back-btn:hover {
+            color: #2980b9;
+        }
+
+        /* Level Selection Screen */
+        .level-selection {
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .level-header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .level-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .level-header p {
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .level-card {
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .level-card:nth-child(2) {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .level-card:nth-child(3) {
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6a00 100%);
+        }
+
+        .level-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+            border-color: #667eea;
+        }
+
+        .level-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .level-card h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .level-card p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .level-card .level-info {
+            font-weight: bold;
+            font-size: 13px;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .game-screen {
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            .levels-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .level-header h1 {
+                font-size: 24px;
+            }
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .back-btn:hover {
+            color: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .game-board {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .game-header h1 {
+                font-size: 22px;
+            }
+
+            .success-content {
+                margin: 20px;
+                padding: 30px;
+            }
+
+            .game-footer {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+        
+        <!-- Level Selection Screen -->
+        <div id="levelSelectionScreen" class="level-selection">
+            <div class="level-header">
+                <h1>🔬 Scientific Terms Matching Game</h1>
+                <p>Select Your Difficulty Level</p>
+            </div>
+            
+            <div class="levels-grid">
+                <div class="level-card" id="easyLevel" data-level="easy">
+                    <div class="level-icon">⭐</div>
+                    <h2>Easy</h2>
+                    <p>Basic scientific terms</p>
+                    <p class="level-info">6 terms to match</p>
+                </div>
+                
+                <div class="level-card" id="mediumLevel" data-level="medium">
+                    <div class="level-icon">⭐⭐</div>
+                    <h2>Medium</h2>
+                    <p>Intermediate concepts</p>
+                    <p class="level-info">8 terms to match</p>
+                </div>
+                
+                <div class="level-card" id="hardLevel" data-level="hard">
+                    <div class="level-icon">⭐⭐⭐</div>
+                    <h2>Hard</h2>
+                    <p>Advanced terminology</p>
+                    <p class="level-info">10 terms to match</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="game-screen" style="display: none;">
+            <div class="game-header">
+                <h1>🔬 Scientific Terms Matching Game</h1>
+                <p id="gameDifficulty">Difficulty: Easy</p>
+            </div>
+
+            <div class="score-display">
+                Matched: <span id="matchCount">0</span> / <span id="totalCount">0</span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="game-board" id="gameBoard">
+                <div class="game-column">
+                    <div class="column-title">Terms</div>
+                    <div id="termsContainer" class="terms-list"></div>
+                </div>
+                <div class="game-column">
+                    <div class="column-title">Definitions</div>
+                    <div id="definitionsContainer" class="definitions-list"></div>
+                </div>
+            </div>
+
+            <div class="game-footer">
+                <button class="btn btn-primary" id="submitBtn">Check Answers</button>
+                <button class="btn btn-secondary" id="resetBtn">Reset Game</button>
+                <button class="btn btn-secondary" id="backBtn">Back to Levels</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="checkmark-icon">✓</div>
+            <h2>🎉 Congratulations!</h2>
+            <p>You've successfully matched all scientific terms with their definitions!</p>
+            <button class="btn btn-primary" id="closeModal">Play Again</button>
+        </div>
+    </div>
+
+    <script src="matching-game.js"></script>
+</body>
+</html>

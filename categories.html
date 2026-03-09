@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept Clarity - Categories</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Concept Clarity</h1>
+        <button id="darkModeToggle2" class="mode-toggle">🌙</button>
+        <button id="logoutBtn3" class="btn logout">Logout</button>
+    </header>
+    <nav class="navbar">
+        <a href="dashboard.html">Home</a>
+        <a href="categories.html">Categories</a>
+        <a href="quiz.html">Quiz</a>
+        <a href="profile.html">Profile</a>
+        <a href="matching-game.html">Matching Game</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+    <main>
+        <div class="hero-section">
+            <h2>Explore Scientific Concepts</h2>
+            <p>Search and browse scientific terms by category</p>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search scientific terms...">
+                <button id="clearSearch" class="btn small">Clear</button>
+            </div>
+        </div>
+
+        <!-- Category Filter Section -->
+        <div class="filter-section">
+            <h3>Filter by Subject</h3>
+            <div class="category-filters">
+                <button class="filter-btn active" data-filter="all">All Subjects</button>
+                <button class="filter-btn" data-filter="Physics">🔬 Physics</button>
+                <button class="filter-btn" data-filter="Chemistry">⚗️ Chemistry</button>
+                <button class="filter-btn" data-filter="Biology">🧬 Biology</button>
+                <button class="filter-btn" data-filter="Mathematics">📐 Mathematics</button>
+                <button class="filter-btn" data-filter="Computer Science">💻 Computer Science</button>
+            </div>
+        </div>
+
+        <!-- Category Cards -->
+        <div class="categories-gallery">
+            <div class="category-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <div class="card-content">
+                    <h3>🔬 Physics</h3>
+                    <p>Forces, Motion & Energy</p>
+                </div>
+            </div>
+            <div class="category-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <div class="card-content">
+                    <h3>⚗️ Chemistry</h3>
+                    <p>Atoms, Molecules & Reactions</p>
+                </div>
+            </div>
+            <div class="category-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <div class="card-content">
+                    <h3>🧬 Biology</h3>
+                    <p>Life, Cells & Evolution</p>
+                </div>
+            </div>
+            <div class="category-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <div class="card-content">
+                    <h3>📐 Mathematics</h3>
+                    <p>Numbers, Equations & Logic</p>
+                </div>
+            </div>
+            <div class="category-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <div class="card-content">
+                    <h3>💻 Computer Science</h3>
+                    <p>Algorithms & Data Structures</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Results -->
+        <div id="searchResults" class="cards" style="display:none;"></div>
+    </main>
+    <footer>
+        <p>&copy; 2026 Concept Clarity. All rights reserved.</p>
+    </footer>
+    <script src="terms.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

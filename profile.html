@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept Clarity - Profile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Student Profile</h1>
+        <button id="darkModeToggle2" class="mode-toggle">🌙</button>
+        <button id="logoutBtn3" class="btn logout">Logout</button>
+    </header>
+    <nav class="navbar">
+        <a href="dashboard.html">Home</a>
+        <a href="categories.html">Categories</a>
+        <a href="quiz.html">Quiz</a>
+        <a href="profile.html">Profile</a>
+        <a href="matching-game.html">Matching Game</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+    <main>
+        <div class="profile-container">
+            <form id="profileForm">
+                <div class="input-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="major">Major/Subject</label>
+                    <input type="text" id="major" name="major">
+                </div>
+                <div class="input-group">
+                    <label for="year">Year</label>
+                    <input type="text" id="year" name="year">
+                </div>
+                <button type="submit" class="btn">Save Profile</button>
+            </form>
+            <div id="profileMessage" class="error"></div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2026 Concept Clarity. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

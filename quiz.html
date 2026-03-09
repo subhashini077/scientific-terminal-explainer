@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept Clarity - Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="quiz-page">
+    <header>
+        <h1>Quiz Time</h1>
+        <button id="logoutBtn2" class="btn logout">Logout</button>
+    </header>
+    <main>
+        <div class="scoreboard-container">
+            <div class="scoreboard">
+                <div class="score-item">
+                    <span class="label">Progress</span>
+                    <span class="value" id="progressDisplay">0/20</span>
+                </div>
+                <div class="score-item">
+                    <span class="label">Score</span>
+                    <span class="value" id="scoreDisplay">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="label">Percentage</span>
+                    <span class="value" id="percentageDisplay">0%</span>
+                </div>
+            </div>
+        </div>
+        <div id="quizContainer" class="quiz-container">
+            <div id="questionBox" class="question-box"></div>
+            <div id="optionsBox" class="options-box"></div>
+            <div id="timer" class="timer"></div>
+            <div id="scoreBox" class="score-box"></div>
+            <button id="restartBtn" class="btn" style="display:none;">Restart Quiz</button>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2026 Concept Clarity. All rights reserved.</p>
+    </footer>
+    <script src="terms.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
