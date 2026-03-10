@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Science Fact Generator - Concept Clarity</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .fact-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .fact-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .fact-card h1 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .fact-label {
+            color: #999;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        #scienceFact {
+            font-size: 24px;
+            line-height: 1.6;
+            color: #333;
+            margin: 30px 0;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-left: 5px solid #667eea;
+            border-radius: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-fact {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-fact:hover {
+            background-color: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-fact:active {
+            transform: translateY(0);
+        }
+
+        .btn-home {
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .btn-home:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .fact-counter {
+            color: #999;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .fact-card {
+                padding: 25px;
+            }
+
+            #scienceFact {
+                font-size: 18px;
+                min-height: 100px;
+            }
+
+            .fact-card h1 {
+                font-size: 22px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn-fact, .btn-home {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fact-container">
+        <div class="fact-card">
+            <h1>🔬 Science Fact</h1>
+            <p class="fact-label">Did you know?</p>
+            <p id="scienceFact">Loading...</p>
+            <div class="button-group">
+                <button class="btn-fact" onclick="getNewFact()">Get New Fact</button>
+                <a href="dashboard.html" class="btn-home">Back to Dashboard</a>
+            </div>
+            <p class="fact-counter">Refresh the page for a random fact!</p>
+        </div>
+    </div>
+
+    <script src="science-facts.js"></script>
+</body>
+</html>
